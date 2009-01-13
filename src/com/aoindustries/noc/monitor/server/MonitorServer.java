@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 by AO Industries, Inc.,
+ * Copyright 2008-2009 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -102,7 +102,7 @@ public class MonitorServer {
                 }
             }
             Registry registry = LocateRegistry.createRegistry(port, csf, ssf); //LocateRegistry.getRegistry();
-            Monitor monitor = new MonitorImpl(errorHandler, port, csf, ssf);
+            MonitorImpl monitor = new MonitorImpl(errorHandler, port, csf, ssf);
             registry.rebind("com.aoindustries.noc.monitor.server.MonitorServer", monitor);
 
             // Auto-login with a top-level account to kick-off the monitoring if a username/password exist in the aoserv-client.properties file
@@ -128,6 +128,9 @@ public class MonitorServer {
                     attemptsLeft--;
                 }
             }
+            
+            // Start up the mobile server
+            new MobileServer(monitor, listenAddress).start();
         } catch(Exception err) {
             ErrorPrinter.printStackTraces(err);
         }
