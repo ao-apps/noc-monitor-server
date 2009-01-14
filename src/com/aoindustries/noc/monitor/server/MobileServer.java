@@ -19,6 +19,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.GZIPOutputStream;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
 
@@ -81,7 +82,7 @@ class MobileServer implements Runnable {
                                                 ErrorPrinter.printStackTraces(err);
                                                 rootNode = null;
                                             }
-                                            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                                            DataOutputStream out = new DataOutputStream(new GZIPOutputStream(socket.getOutputStream()));
                                             try {
                                                 if(rootNode==null) {
                                                     // Authentication failed
