@@ -10,7 +10,6 @@ import com.aoindustries.noc.common.NodeSnapshot;
 import com.aoindustries.noc.common.RootNode;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.RootNodeImpl;
-import com.aoindustries.util.ErrorPrinter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -19,6 +18,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.GZIPOutputStream;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
@@ -30,6 +31,8 @@ import javax.net.ssl.SSLServerSocketFactory;
  * @author  AO Industries, Inc.
  */
 class MobileServer implements Runnable {
+
+    private static final Logger logger = Logger.getLogger(MobileServer.class.getName());
 
     private static final int PORT = 4585;
 
@@ -79,7 +82,7 @@ class MobileServer implements Runnable {
                                             try {
                                                 rootNode = monitor.login(Locale.getDefault(), username, password);
                                             } catch(IOException err) {
-                                                ErrorPrinter.printStackTraces(err);
+                                                logger.log(Level.SEVERE, null, err);
                                                 rootNode = null;
                                             }
                                             DataOutputStream out = new DataOutputStream(new GZIPOutputStream(socket.getOutputStream()));
@@ -104,7 +107,7 @@ class MobileServer implements Runnable {
                                         socket.close();
                                     }
                                 } catch(Exception err) {
-                                    ErrorPrinter.printStackTraces(err);
+                                    logger.log(Level.SEVERE, null, err);
                                 }
                             }
                         }
@@ -115,11 +118,11 @@ class MobileServer implements Runnable {
             } catch(ThreadDeath TD) {
                 throw TD;
             } catch(Throwable T) {
-                ErrorPrinter.printStackTraces(T);
+                logger.log(Level.SEVERE, null, T);
                 try {
                     Thread.sleep(10000);
                 } catch(InterruptedException err) {
-                    ErrorPrinter.printStackTraces(err);
+                    logger.log(Level.WARNING, null, err);
                 }
             }
         }

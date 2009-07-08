@@ -12,9 +12,6 @@ import com.aoindustries.rmi.RMIClientSocketFactoryTCP;
 import com.aoindustries.rmi.RMIServerSocketFactorySSL;
 import com.aoindustries.rmi.RMIServerSocketFactoryTCP;
 import com.aoindustries.noc.monitor.MonitorImpl;
-import com.aoindustries.util.ErrorHandler;
-import com.aoindustries.util.ErrorPrinter;
-import com.aoindustries.util.StandardErrorHandler;
 import java.io.File;
 import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
@@ -22,6 +19,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The RMI server for NOC monitoring.  If a username and password are available in the aoserv-client.properties file,
@@ -31,7 +30,7 @@ import java.util.Locale;
  */
 public class MonitorServer {
 
-    final static ErrorHandler errorHandler = new StandardErrorHandler();
+    private static final Logger logger = Logger.getLogger(MonitorServer.class.getName());
 
     public static void main(String[] args) {
         int port = Monitor.DEFAULT_RMI_SERVER_PORT;
@@ -102,7 +101,7 @@ public class MonitorServer {
                 }
             }
             Registry registry = LocateRegistry.createRegistry(port, csf, ssf); //LocateRegistry.getRegistry();
-            MonitorImpl monitor = new MonitorImpl(errorHandler, port, csf, ssf);
+            MonitorImpl monitor = new MonitorImpl(port, csf, ssf);
             registry.rebind("com.aoindustries.noc.monitor.server.MonitorServer", monitor);
 
             // Auto-login with a top-level account to kick-off the monitoring if a username/password exist in the aoserv-client.properties file
@@ -118,11 +117,11 @@ public class MonitorServer {
                         monitor.login(Locale.getDefault(), rootUsername, rootPassword);
                         break;
                     } catch(Exception err) {
-                        errorHandler.reportError(err, null);
+                        logger.log(Level.SEVERE, null, err);
                         try {
                             Thread.sleep(60000);
                         } catch(InterruptedException err2) {
-                            errorHandler.reportWarning(err2, null);
+                            logger.log(Level.WARNING, null, err2);
                         }
                     }
                     attemptsLeft--;
@@ -132,7 +131,7 @@ public class MonitorServer {
             // Start up the mobile server
             new MobileServer(monitor, listenAddress).start();
         } catch(Exception err) {
-            ErrorPrinter.printStackTraces(err);
+            logger.log(Level.SEVERE, null, err);
         }
     }
 
