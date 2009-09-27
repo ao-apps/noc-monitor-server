@@ -52,7 +52,13 @@ class MobileServer implements Runnable {
             thread.start();
         }
     }
-    
+
+    private static int getNodeCount(NodeSnapshot snapshot) {
+        int total = 1;
+        for(NodeSnapshot child : snapshot.getChildren()) total += getNodeCount(child);
+        return total;
+    }
+
     @Override
     public void run() {
         while(true) {
@@ -95,6 +101,7 @@ class MobileServer implements Runnable {
                                                     out.writeBoolean(true);
                                                     // Write snapshot
                                                     NodeSnapshot snapshot = rootNode.getSnapshot();
+                                                    logger.log(Level.INFO, "RootNode snapshot has a total of "+getNodeCount(snapshot)+" nodes");
                                                     writeNodeTree(out, snapshot);
                                                 }
                                             } finally {
