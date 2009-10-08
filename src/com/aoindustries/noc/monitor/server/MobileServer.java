@@ -127,7 +127,7 @@ class MobileServer implements Runnable {
             } catch(Throwable T) {
                 logger.log(Level.SEVERE, null, T);
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(60000);
                 } catch(InterruptedException err) {
                     logger.log(Level.WARNING, null, err);
                 }
