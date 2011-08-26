@@ -1,11 +1,10 @@
 /*
- * Copyright 2008-2009 by AO Industries, Inc.,
+ * Copyright 2008-2011 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
 package com.aoindustries.noc.monitor.server;
 
-import com.aoindustries.aoserv.client.AOServClientConfiguration;
 import com.aoindustries.noc.common.Monitor;
 import com.aoindustries.rmi.RMIClientSocketFactorySSL;
 import com.aoindustries.rmi.RMIClientSocketFactoryTCP;
@@ -18,7 +17,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,6 +60,7 @@ public class MonitorServer {
             System.setProperty("java.rmi.server.randomIDs", "true");
             System.setProperty("java.rmi.server.useCodebaseOnly", "true");
             System.setProperty("java.rmi.server.disableHttp", "true");
+            // System.setProperty("sun.rmi.server.suppressStackTraces", "true");
 
             RMIClientSocketFactory csf;
             RMIServerSocketFactory ssf;
@@ -105,6 +104,7 @@ public class MonitorServer {
             registry.rebind("com.aoindustries.noc.monitor.server.MonitorServer", monitor);
 
             // Auto-login with a top-level account to kick-off the monitoring if a username/password exist in the aoserv-client.properties file
+            /*
             String rootUsername = AOServClientConfiguration.getUsername();
             String rootPassword = AOServClientConfiguration.getPassword();
             if(
@@ -114,7 +114,7 @@ public class MonitorServer {
                 int attemptsLeft = 120;
                 while(attemptsLeft>0) {
                     try {
-                        monitor.login(Locale.getDefault(), rootUsername, rootPassword);
+                        monitor.login(ThreadLocale.get(), rootUsername, rootPassword);
                         break;
                     } catch(Exception err) {
                         logger.log(Level.SEVERE, null, err);
@@ -127,6 +127,7 @@ public class MonitorServer {
                     attemptsLeft--;
                 }
             }
+             */
             
             // Start up the mobile server
             new MobileServer(monitor, listenAddress).start();
