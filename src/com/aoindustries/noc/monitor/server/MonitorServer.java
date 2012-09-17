@@ -11,7 +11,6 @@ import com.aoindustries.noc.monitor.common.MonitoringPoint;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.mobile.server.MobileServer;
 import com.aoindustries.noc.monitor.rmi.server.RmiServerMonitor;
-import java.io.File;
 import java.net.InetAddress;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -62,6 +61,7 @@ public class MonitorServer {
         }
         try {
             // SSL
+            /* Will be set by scripts since each server has its own key
             if(System.getProperty("javax.net.ssl.keyStorePassword")==null) {
                 System.setProperty(
                     "javax.net.ssl.keyStorePassword",
@@ -74,6 +74,7 @@ public class MonitorServer {
                     System.getProperty("user.home")+File.separatorChar+".keystore"
                 );
             }
+             */
 
             // Start the RMI server
             System.out.print("Starting MonitorServer: ");
