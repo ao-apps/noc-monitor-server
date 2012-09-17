@@ -36,7 +36,7 @@ grant codeBase "file:${user.dir}/lib/aoserv-client.jar" {
   permission java.security.SecurityPermission "insertProvider.SunJSSE";
   permission java.util.PropertyPermission     "user.dir",                             "read";
 };
-grant codeBase "file:${user.dir}/lib/noc-common.jar" {
+grant codeBase "file:${user.dir}/lib/noc-monitor-common.jar" {
   permission java.net.SocketPermission        "127.0.0.1:4585",                       "connect,resolve";
   permission java.util.PropertyPermission     "user.timezone",                        "write";
 };
