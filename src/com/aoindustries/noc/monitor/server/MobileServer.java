@@ -1,15 +1,16 @@
 /*
- * Copyright 2008-2009 by AO Industries, Inc.,
+ * Copyright 2008-2011 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
 package com.aoindustries.noc.monitor.server;
 
+import com.aoindustries.noc.common.AlertLevel;
+import com.aoindustries.noc.common.NodeSnapshot;
+import com.aoindustries.noc.common.RootNode;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.RootNodeImpl;
-import com.aoindustries.noc.monitor.common.AlertLevel;
-import com.aoindustries.noc.monitor.common.NodeSnapshot;
-import com.aoindustries.noc.monitor.common.RootNode;
+import com.aoindustries.util.i18n.ThreadLocale;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -17,7 +18,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPOutputStream;
@@ -25,9 +25,6 @@ import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
 
 /**
- * The RMI server for NOC monitoring.  If a username and password are available in the aoserv-client.properties file,
- * will auto-login at startup to kick-start the monitoring.
- *
  * @author  AO Industries, Inc.
  */
 class MobileServer implements Runnable {
@@ -73,7 +70,7 @@ class MobileServer implements Runnable {
                 }
                 try {
                     final Socket socket = ss.accept();
-                    RootNodeImpl.executorService.submitUnbounded(
+                    RootNodeImpl.executorService.submit(
                         new Runnable() {
                             @Override
                             public void run() {
@@ -86,7 +83,7 @@ class MobileServer implements Runnable {
                                             String password = in.readUTF();
                                             RootNode rootNode; // Will be null if not authenticated
                                             try {
-                                                rootNode = monitor.login(Locale.getDefault(), username, password);
+                                                rootNode = monitor.login(ThreadLocale.get(), username, password);
                                             } catch(IOException err) {
                                                 logger.log(Level.SEVERE, null, err);
                                                 rootNode = null;
