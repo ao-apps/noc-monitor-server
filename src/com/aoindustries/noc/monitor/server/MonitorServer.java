@@ -107,6 +107,8 @@ public class MonitorServer {
 							Thread.sleep(60000);
 						} catch(InterruptedException err2) {
 							logger.log(Level.WARNING, null, err2);
+							// Restore the interrupted status
+							Thread.currentThread().interrupt();
 						}
 					}
 					attemptsLeft--;
