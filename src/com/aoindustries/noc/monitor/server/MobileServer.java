@@ -1,15 +1,17 @@
 /*
- * Copyright 2008-2009 by AO Industries, Inc.,
+ * Copyright 2008-2009, 2017 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
 package com.aoindustries.noc.monitor.server;
 
+import com.aoindustries.aoserv.client.validator.UserId;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.RootNodeImpl;
 import com.aoindustries.noc.monitor.common.AlertLevel;
 import com.aoindustries.noc.monitor.common.NodeSnapshot;
 import com.aoindustries.noc.monitor.common.RootNode;
+import com.aoindustries.validation.ValidationException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -83,8 +85,12 @@ class MobileServer implements Runnable {
 									String password = in.readUTF();
 									RootNode rootNode; // Will be null if not authenticated
 									try {
-										rootNode = monitor.login(Locale.getDefault(), username, password);
-									} catch(IOException err) {
+										rootNode = monitor.login(
+											Locale.getDefault(),
+											UserId.valueOf(username),
+											password
+										);
+									} catch(IOException | ValidationException err) {
 										logger.log(Level.SEVERE, null, err);
 										rootNode = null;
 									}

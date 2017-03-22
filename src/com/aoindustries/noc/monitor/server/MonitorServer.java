@@ -1,11 +1,12 @@
 /*
- * Copyright 2008-2009, 2016 by AO Industries, Inc.,
+ * Copyright 2008-2009, 2016, 2017 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
 package com.aoindustries.noc.monitor.server;
 
 import com.aoindustries.aoserv.client.AOServClientConfiguration;
+import com.aoindustries.aoserv.client.validator.UserId;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.common.Monitor;
 import com.aoindustries.rmi.RMIClientSocketFactorySSL;
@@ -90,11 +91,11 @@ public class MonitorServer {
 			registry.rebind("com.aoindustries.noc.monitor.server.MonitorServer", monitor);
 
 			// Auto-login with a top-level account to kick-off the monitoring if a username/password exist in the aoserv-client.properties file
-			String rootUsername = AOServClientConfiguration.getUsername();
+			UserId rootUsername = AOServClientConfiguration.getUsername();
 			String rootPassword = AOServClientConfiguration.getPassword();
 			if(
-				rootUsername!=null && (rootUsername=rootUsername.trim()).length()>0
-				&& rootPassword!=null && (rootPassword=rootPassword.trim()).length()>0
+				rootUsername != null
+				&& rootPassword != null && (rootPassword = rootPassword.trim()).length() > 0
 			) {
 				int attemptsLeft = 120;
 				while(attemptsLeft>0) {
