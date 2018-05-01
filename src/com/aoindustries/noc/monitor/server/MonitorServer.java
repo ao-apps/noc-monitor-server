@@ -1,5 +1,5 @@
 /*
- * Copyright 2008-2009, 2016, 2017 by AO Industries, Inc.,
+ * Copyright 2008-2009, 2016, 2017, 2018 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -98,7 +98,7 @@ public class MonitorServer {
 				&& rootPassword != null && (rootPassword = rootPassword.trim()).length() > 0
 			) {
 				int attemptsLeft = 120;
-				while(attemptsLeft>0) {
+				while(attemptsLeft > 0) {
 					try {
 						monitor.login(Locale.getDefault(), rootUsername, rootPassword);
 						break;
@@ -108,8 +108,6 @@ public class MonitorServer {
 							Thread.sleep(60000);
 						} catch(InterruptedException err2) {
 							logger.log(Level.WARNING, null, err2);
-							// Restore the interrupted status
-							Thread.currentThread().interrupt();
 						}
 					}
 					attemptsLeft--;
