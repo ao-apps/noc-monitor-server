@@ -5,7 +5,7 @@
  */
 package com.aoindustries.noc.monitor.server;
 
-import com.aoindustries.aoserv.client.validator.UserId;
+import com.aoindustries.aoserv.client.account.User;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.RootNodeImpl;
 import com.aoindustries.noc.monitor.common.AlertLevel;
@@ -87,7 +87,7 @@ class MobileServer implements Runnable {
 									try {
 										rootNode = monitor.login(
 											Locale.getDefault(),
-											UserId.valueOf(username),
+											User.Name.valueOf(username),
 											password
 										);
 									} catch(IOException | ValidationException err) {

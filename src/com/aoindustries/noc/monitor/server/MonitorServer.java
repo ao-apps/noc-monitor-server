@@ -6,7 +6,7 @@
 package com.aoindustries.noc.monitor.server;
 
 import com.aoindustries.aoserv.client.AOServClientConfiguration;
-import com.aoindustries.aoserv.client.validator.UserId;
+import com.aoindustries.aoserv.client.account.User;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.common.Monitor;
 import com.aoindustries.rmi.RMIClientSocketFactorySSL;
@@ -91,7 +91,7 @@ public class MonitorServer {
 			registry.rebind("com.aoindustries.noc.monitor.server.MonitorServer", monitor);
 
 			// Auto-login with a top-level account to kick-off the monitoring if a username/password exist in the aoserv-client.properties file
-			UserId rootUsername = AOServClientConfiguration.getUsername();
+			User.Name rootUsername = AOServClientConfiguration.getUsername();
 			String rootPassword = AOServClientConfiguration.getPassword();
 			if(
 				rootUsername != null
