@@ -1,6 +1,6 @@
-// cd /home/orion/projects/ao/noc-monitor-server/dist
+// cd "$HOME/projects/aoprod/noc-monitor-server/dist"
 // export CLASSPATH=
-// java -Djava.security.debug=access,failure -ea:com.aoindustries... -Djava.security.policy=/home/orion/common/ao/cvswork/noc-monitor-server/security.policy -jar noc-monitor-server.jar localhost 2>&1 | grep -v allowed | less -S
+// java -Djava.security.debug=access,failure -ea:com.aoindustries... -Djava.security.policy="$HOME/maven2/ao/noc/monitor/server/security.policy" -jar noc-monitor-server.jar localhost 2>&1 | grep -v allowed | less -S
 
 grant codeBase "file:${user.dir}/noc-monitor-server.jar" {
   permission java.io.FilePermission           "${user.dir}/lib/noc-monitor.jar",      "read";
