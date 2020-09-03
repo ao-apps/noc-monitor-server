@@ -49,6 +49,7 @@ public class MonitorServer {
 
 	private static final Logger logger = Logger.getLogger(MonitorServer.class.getName());
 
+	@SuppressWarnings({"UseOfSystemOutOrSystemErr", "SleepWhileInLoop", "UseSpecificCatch", "TooBroadCatch"})
 	public static void main(String[] args) {
 		int port = Monitor.DEFAULT_RMI_SERVER_PORT;
 		String listenAddress = null;
@@ -133,8 +134,10 @@ public class MonitorServer {
 
 			// Start up the mobile server
 			new MobileServer(monitor, listenAddress).start();
-		} catch(Exception err) {
-			logger.log(Level.SEVERE, null, err);
+		} catch(ThreadDeath td) {
+			throw td;
+		} catch(Throwable t) {
+			logger.log(Level.SEVERE, null, t);
 		}
 	}
 

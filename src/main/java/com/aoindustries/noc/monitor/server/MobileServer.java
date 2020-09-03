@@ -80,6 +80,7 @@ class MobileServer implements Runnable {
 	}*/
 
 	@Override
+	@SuppressWarnings({"UseSpecificCatch", "TooBroadCatch", "SleepWhileInLoop"})
 	public void run() {
 		while(true) {
 			try {
@@ -173,6 +174,8 @@ class MobileServer implements Runnable {
 		int numChildren = children.size();
 		if(numChildren>Short.MAX_VALUE) throw new IOException("Too many children for current protocol: "+numChildren);
 		out.writeShort(numChildren);
-		for(int c=0;c<numChildren;c++) writeNodeTree(out, children.get(c));
+		for(int c = 0; c < numChildren; c++) {
+			writeNodeTree(out, children.get(c));
+		}
 	}
 }
