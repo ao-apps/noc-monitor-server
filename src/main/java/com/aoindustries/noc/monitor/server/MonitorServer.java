@@ -29,12 +29,10 @@ import com.aoindustries.noc.monitor.common.Monitor;
 import com.aoindustries.rmi.RMIClientSocketFactorySSL;
 import com.aoindustries.rmi.RMIServerSocketFactorySSL;
 import java.io.File;
-import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -120,8 +118,10 @@ public class MonitorServer {
 					try {
 						monitor.login(Locale.getDefault(), rootUsername, rootPassword);
 						break;
-					} catch(RuntimeException | IOException | SQLException err) {
-						logger.log(Level.SEVERE, null, err);
+					} catch(ThreadDeath td) {
+						throw td;
+					} catch(Throwable t) {
+						logger.log(Level.SEVERE, null, t);
 						try {
 							Thread.sleep(60000);
 						} catch(InterruptedException err2) {

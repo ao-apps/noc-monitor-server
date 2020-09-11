@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -129,15 +128,17 @@ class MobileServer implements Runnable {
 							} finally {
 								socket.close();
 							}
-						} catch(RuntimeException | IOException | SQLException err) {
-							logger.log(Level.SEVERE, null, err);
+						} catch(ThreadDeath td) {
+							throw td;
+						} catch(Throwable t) {
+							logger.log(Level.SEVERE, null, t);
 						}
 					});
 				} finally {
 					ss.close();
 				}
-			} catch(ThreadDeath TD) {
-				throw TD;
+			} catch(ThreadDeath td) {
+				throw td;
 			} catch(Throwable T) {
 				logger.log(Level.SEVERE, null, T);
 				try {
