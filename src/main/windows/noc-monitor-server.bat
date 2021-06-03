@@ -24,7 +24,7 @@ rem
 rem Build CLASSPATH
 rem
 set "CLASSPATH=%EXE_DIR%\noc-monitor-server.jar"
-set "CLASSPATH=%CLASSPATH%;%EXE_DIR%\lib\aocode-public.jar"
+set "CLASSPATH=%CLASSPATH%;%EXE_DIR%\lib\ao-hodgepodge.jar"
 set "CLASSPATH=%CLASSPATH%;%EXE_DIR%\lib\aoserv-client.jar"
 set "CLASSPATH=%CLASSPATH%;%EXE_DIR%\lib\dnsjava-2.0.7.jar"
 set "CLASSPATH=%CLASSPATH%;%EXE_DIR%\lib\mysql-connector-java-3.1.12-bin.jar"
