@@ -1,6 +1,6 @@
 /*
  * noc-monitor-server - Server for Network Operations Center Monitoring.
- * Copyright (C) 2008, 2009, 2017, 2018, 2020  AO Industries, Inc.
+ * Copyright (C) 2008, 2009, 2017, 2018, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -22,13 +22,13 @@
  */
 package com.aoindustries.noc.monitor.server;
 
+import com.aoapps.lang.validation.ValidationException;
 import com.aoindustries.aoserv.client.account.User;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.RootNodeImpl;
 import com.aoindustries.noc.monitor.common.AlertLevel;
 import com.aoindustries.noc.monitor.common.NodeSnapshot;
 import com.aoindustries.noc.monitor.common.RootNode;
-import com.aoindustries.validation.ValidationException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

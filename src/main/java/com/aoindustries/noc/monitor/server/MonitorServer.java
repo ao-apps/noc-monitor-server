@@ -1,6 +1,6 @@
 /*
  * noc-monitor-server - Server for Network Operations Center Monitoring.
- * Copyright (C) 2008, 2009, 2016, 2017, 2018, 2020  AO Industries, Inc.
+ * Copyright (C) 2008, 2009, 2016, 2017, 2018, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -22,12 +22,12 @@
  */
 package com.aoindustries.noc.monitor.server;
 
+import com.aoapps.hodgepodge.rmi.RMIClientSocketFactorySSL;
+import com.aoapps.hodgepodge.rmi.RMIServerSocketFactorySSL;
 import com.aoindustries.aoserv.client.AOServClientConfiguration;
 import com.aoindustries.aoserv.client.account.User;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.common.Monitor;
-import com.aoindustries.rmi.RMIClientSocketFactorySSL;
-import com.aoindustries.rmi.RMIServerSocketFactorySSL;
 import java.io.File;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
