@@ -9,6 +9,12 @@
 
 [![Build](https://github.com/aoindustries/noc-monitor-server/workflows/Build/badge.svg?branch=master)](https://github.com/aoindustries/noc-monitor-server/actions?query=workflow%3ABuild)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.aoindustries/noc-monitor-server/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.aoindustries/noc-monitor-server)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=alert_status)](https://sonarcloud.io/dashboard?branch=master&id=com.aoapps.platform%3Anoc-monitor-server)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=ncloc)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps.platform%3Anoc-monitor-server&metric=ncloc)  
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=reliability_rating)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps.platform%3Anoc-monitor-server&metric=Reliability)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=security_rating)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps.platform%3Anoc-monitor-server&metric=Security)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=sqale_rating)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps.platform%3Anoc-monitor-server&metric=Maintainability)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=coverage)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps.platform%3Anoc-monitor-server&metric=Coverage)
 
 Server for [Network Operations Center Monitoring](https://github.com/aoindustries/noc-monitor).
 
