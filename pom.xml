@@ -43,7 +43,7 @@ along with noc-monitor-server.  If not, see <http://www.gnu.org/licenses />.
 		<sonar.organization>aoindustries</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<!-- Dependencies -->
-		<slf4j-api.version>1.7.31</slf4j-api.version>
+		<slf4j-api.version>1.7.32</slf4j-api.version>
 		<!-- TODO: Remove once moved to oss.aoapps.com -->
 		<google.analytics.trackingId>UA-86871646-1</google.analytics.trackingId>
 		<!-- com.aoindustries is on original Sonatype Nexus Repository Manager -->
@@ -295,7 +295,7 @@ along with noc-monitor-server.  If not, see <http://www.gnu.org/licenses />.
 			</dependency>
 			<!-- Runtime Direct -->
 			<dependency>
-				<groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId><version>1.7.31</version>
+				<groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId><version>1.7.32</version>
 			</dependency>
 			<!-- Runtime Transitive -->
 			<dependency>
