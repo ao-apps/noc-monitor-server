@@ -175,7 +175,7 @@ along with noc-monitor-server.  If not, see <http://www.gnu.org/licenses />.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId>
 						<configuration>
-							<offlineLinks>
+							<offlineLinks combine.children="append">
 								<!-- Direct -->
 								<offlineLink>
 									<url>https://oss.aoapps.com/concurrent/apidocs/</url>
@@ -200,11 +200,6 @@ along with noc-monitor-server.  If not, see <http://www.gnu.org/licenses />.
 								<offlineLink>
 									<url>https://aoindustries.com/noc/monitor/impl/apidocs/</url>
 									<location>${project.build.directory}/offlineLinks/com.aoindustries/noc-monitor-impl</location>
-								</offlineLink>
-								<!-- Java SE -->
-								<offlineLink>
-									<url>${javadoc.link.javase}</url>
-									<location>${project.build.directory}/offlineLinks/com/aoapps/javadoc/offline/javase/${javase.release}</location>
 								</offlineLink>
 							</offlineLinks>
 						</configuration>
