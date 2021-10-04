@@ -55,8 +55,8 @@ class MobileServer implements Runnable {
 
 	private static final int PORT = 4585;
 
-	final private MonitorImpl monitor;
-	final private String localAddress;
+	private final MonitorImpl monitor;
+	private final String localAddress;
 
 	private Thread thread;
 
