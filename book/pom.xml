@@ -75,20 +75,20 @@ along with noc-monitor-server.  If not, see <http://www.gnu.org/licenses />.
 	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/aoindustries/noc-monitor-server.git</connection>
-		<developerConnection>scm:git:git@github.com:aoindustries/noc-monitor-server.git</developerConnection>
-		<url>https://github.com/aoindustries/noc-monitor-server</url>
+		<connection>scm:git:git://github.com/ao-apps/noc-monitor-server.git</connection>
+		<developerConnection>scm:git:git@github.com:ao-apps/noc-monitor-server.git</developerConnection>
+		<url>https://github.com/ao-apps/noc-monitor-server</url>
 		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/aoindustries/noc-monitor-server/issues</url>
+		<url>https://github.com/ao-apps/noc-monitor-server/issues</url>
 	</issueManagement>
 
 	<ciManagement>
 		<system>GitHub Actions</system>
-		<url>https://github.com/aoindustries/noc-monitor-server/actions</url>
+		<url>https://github.com/ao-apps/noc-monitor-server/actions</url>
 	</ciManagement>
 
 	<repositories>

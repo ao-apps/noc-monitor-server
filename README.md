@@ -1,4 +1,4 @@
-# [<img src="ao-logo.png" alt="AO Logo" width="35" height="40">](https://github.com/aoindustries) [NOC](https://github.com/aoindustries/noc) / [Monitor](https://github.com/aoindustries/noc-monitor) / [Server](https://github.com/aoindustries/noc-monitor-server)
+# [<img src="ao-logo.png" alt="AO Logo" width="35" height="40">](https://github.com/ao-apps) [NOC](https://github.com/ao-apps/noc) / [Monitor](https://github.com/ao-apps/noc-monitor) / [Server](https://github.com/ao-apps/noc-monitor-server)
 
 [![project: current stable](https://aoindustries.com/ao-badges/project-current-stable.svg)](https://aoindustries.com/life-cycle#project-current-stable)
 [![management: production](https://aoindustries.com/ao-badges/management-production.svg)](https://aoindustries.com/life-cycle#management-production)
@@ -7,7 +7,7 @@
 [![semantic versioning: 2.0.0](https://aoindustries.com/ao-badges/semver-2.0.0.svg)](http://semver.org/spec/v2.0.0.html)
 [![license: LGPL v3](https://aoindustries.com/ao-badges/license-lgpl-3.0.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-[![Build](https://github.com/aoindustries/noc-monitor-server/workflows/Build/badge.svg?branch=master)](https://github.com/aoindustries/noc-monitor-server/actions?query=workflow%3ABuild)
+[![Build](https://github.com/ao-apps/noc-monitor-server/workflows/Build/badge.svg?branch=master)](https://github.com/ao-apps/noc-monitor-server/actions?query=workflow%3ABuild)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.aoindustries/noc-monitor-server/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.aoindustries/noc-monitor-server)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=alert_status)](https://sonarcloud.io/dashboard?branch=master&id=com.aoapps.platform%3Anoc-monitor-server)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=ncloc)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps.platform%3Anoc-monitor-server&metric=ncloc)  
@@ -16,14 +16,14 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=sqale_rating)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps.platform%3Anoc-monitor-server&metric=Maintainability)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps.platform%3Anoc-monitor-server&metric=coverage)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps.platform%3Anoc-monitor-server&metric=Coverage)
 
-Server for [Network Operations Center Monitoring](https://github.com/aoindustries/noc-monitor).
+Server for [Network Operations Center Monitoring](https://github.com/ao-apps/noc-monitor).
 
 ## Project Links
 * [Project Home](https://aoindustries.com/noc/monitor/server/)
 * [Changelog](https://aoindustries.com/noc/monitor/server/changelog)
 * [API Docs](https://aoindustries.com/noc/monitor/server/apidocs/)
 * [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/noc-monitor-server)
-* [GitHub](https://github.com/aoindustries/noc-monitor-server)
+* [GitHub](https://github.com/ao-apps/noc-monitor-server)
 
 ## Contact Us
 For questions or support, please [contact us](https://aoindustries.com/contact):
