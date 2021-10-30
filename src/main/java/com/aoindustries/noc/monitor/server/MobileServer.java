@@ -81,7 +81,7 @@ class MobileServer implements Runnable {
 	@Override
 	@SuppressWarnings({"UseSpecificCatch", "TooBroadCatch", "SleepWhileInLoop"})
 	public void run() {
-		while(true) {
+		while(!Thread.currentThread().isInterrupted()) {
 			try {
 				ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
 				ServerSocket ss;
@@ -92,48 +92,50 @@ class MobileServer implements Runnable {
 					ss = factory.createServerSocket(PORT, 50, address);
 				}
 				try {
-					final Socket socket = ss.accept();
-					RootNodeImpl.executors.getUnbounded().submit(() -> {
-						try {
+					while(!Thread.currentThread().isInterrupted()) {
+						final Socket socket = ss.accept();
+						RootNodeImpl.executors.getUnbounded().submit(() -> {
 							try {
-								try (DataInputStream in = new DataInputStream(socket.getInputStream())) {
-									// Check authentication
-									String username = in.readUTF();
-									String password = in.readUTF();
-									RootNode rootNode; // Will be null if not authenticated
-									try {
-										rootNode = monitor.login(
-											Locale.getDefault(),
-											User.Name.valueOf(username),
-											password
-										);
-									} catch(IOException | ValidationException err) {
-										logger.log(Level.SEVERE, null, err);
-										rootNode = null;
-									}
-									try (DataOutputStream out = new DataOutputStream(new GZIPOutputStream(socket.getOutputStream()))) {
-										if(rootNode==null) {
-											// Authentication failed
-											out.writeBoolean(false);
-										} else {
-											// Authentication successful
-											out.writeBoolean(true);
-											// Write snapshot
-											NodeSnapshot snapshot = rootNode.getSnapshot();
-											//logger.log(Level.INFO, "RootNode snapshot has a total of "+getNodeCount(snapshot)+" nodes");
-											writeNodeTree(out, snapshot);
+								try {
+									try (DataInputStream in = new DataInputStream(socket.getInputStream())) {
+										// Check authentication
+										String username = in.readUTF();
+										String password = in.readUTF();
+										RootNode rootNode; // Will be null if not authenticated
+										try {
+											rootNode = monitor.login(
+												Locale.getDefault(),
+												User.Name.valueOf(username),
+												password
+											);
+										} catch(IOException | ValidationException err) {
+											logger.log(Level.SEVERE, null, err);
+											rootNode = null;
+										}
+										try (DataOutputStream out = new DataOutputStream(new GZIPOutputStream(socket.getOutputStream()))) {
+											if(rootNode==null) {
+												// Authentication failed
+												out.writeBoolean(false);
+											} else {
+												// Authentication successful
+												out.writeBoolean(true);
+												// Write snapshot
+												NodeSnapshot snapshot = rootNode.getSnapshot();
+												//logger.log(Level.INFO, "RootNode snapshot has a total of "+getNodeCount(snapshot)+" nodes");
+												writeNodeTree(out, snapshot);
+											}
 										}
 									}
+								} finally {
+									socket.close();
 								}
-							} finally {
-								socket.close();
+							} catch(ThreadDeath td) {
+								throw td;
+							} catch(Throwable t) {
+								logger.log(Level.SEVERE, null, t);
 							}
-						} catch(ThreadDeath td) {
-							throw td;
-						} catch(Throwable t) {
-							logger.log(Level.SEVERE, null, t);
-						}
-					});
+						});
+					}
 				} finally {
 					ss.close();
 				}
@@ -145,6 +147,8 @@ class MobileServer implements Runnable {
 					Thread.sleep(60000);
 				} catch(InterruptedException err) {
 					logger.log(Level.WARNING, null, err);
+					// Restore the interrupted status
+					Thread.currentThread().interrupt();
 				}
 			}
 		}

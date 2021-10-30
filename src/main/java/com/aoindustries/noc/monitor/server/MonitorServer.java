@@ -122,11 +122,7 @@ public class MonitorServer {
 						throw td;
 					} catch(Throwable t) {
 						logger.log(Level.SEVERE, null, t);
-						try {
-							Thread.sleep(60000);
-						} catch(InterruptedException err2) {
-							logger.log(Level.WARNING, null, err2);
-						}
+						Thread.sleep(60000);
 					}
 					attemptsLeft--;
 				}
@@ -134,6 +130,10 @@ public class MonitorServer {
 
 			// Start up the mobile server
 			new MobileServer(monitor, listenAddress).start();
+		} catch(InterruptedException e) {
+			logger.log(Level.WARNING, null, e);
+			// Restore the interrupted status
+			Thread.currentThread().interrupt();
 		} catch(ThreadDeath td) {
 			throw td;
 		} catch(Throwable t) {
