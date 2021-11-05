@@ -43,7 +43,10 @@ import java.util.logging.Logger;
  *
  * @author  AO Industries, Inc.
  */
-public class MonitorServer {
+public abstract class MonitorServer {
+
+	/** Make no instances. */
+	private MonitorServer() {throw new AssertionError();}
 
 	private static final Logger logger = Logger.getLogger(MonitorServer.class.getName());
 
@@ -139,8 +142,5 @@ public class MonitorServer {
 		} catch(Throwable t) {
 			logger.log(Level.SEVERE, null, t);
 		}
-	}
-
-	private MonitorServer() {
 	}
 }
