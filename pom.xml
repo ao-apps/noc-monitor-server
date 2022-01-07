@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 noc-monitor-server - Server for Network Operations Center Monitoring.
-Copyright (C) 2020, 2021  AO Industries, Inc.
+Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
 	support@aoindustries.com
 	7262 Bull Pen Cir
 	Mobile, AL 36695
@@ -311,7 +311,7 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
 				<groupId>org.postgresql</groupId><artifactId>postgresql</artifactId><version>42.3.1</version>
 			</dependency>
 			<dependency>
-				<groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId><version>3.19.1</version>
+				<groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId><version>3.19.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
