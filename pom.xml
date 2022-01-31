@@ -45,7 +45,7 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
 		<!-- TODO: Implement tests -->
 		<sonar.coverage.exclusions>**.*</sonar.coverage.exclusions>
 		<!-- Dependencies -->
-		<slf4j-api.version>1.7.33</slf4j-api.version>
+		<slf4j-api.version>1.7.35</slf4j-api.version>
 		<!-- TODO: Remove once moved to platform.aoapps.com -->
 		<google.analytics.trackingId>UA-86871646-1</google.analytics.trackingId>
 		<!-- com.aoindustries is on original Sonatype Nexus Repository Manager -->
@@ -298,7 +298,7 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
 			</dependency>
 			<!-- Runtime Direct -->
 			<dependency>
-				<groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId><version>1.7.33</version>
+				<groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId><version>1.7.35</version>
 			</dependency>
 			<!-- Runtime Transitive -->
 			<dependency>
