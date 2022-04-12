@@ -43,6 +43,7 @@ import java.util.logging.Logger;
  *
  * @author  AO Industries, Inc.
  */
+// TODO: Implement serialization filters to prevent malicious loading of new classes
 public final class MonitorServer {
 
 	/** Make no instances. */
