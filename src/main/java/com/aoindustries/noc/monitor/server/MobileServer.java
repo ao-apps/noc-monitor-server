@@ -52,136 +52,140 @@ import javax.net.ssl.SSLServerSocketFactory;
  */
 class MobileServer implements Runnable {
 
-	private static final Logger logger = Logger.getLogger(MobileServer.class.getName());
+  private static final Logger logger = Logger.getLogger(MobileServer.class.getName());
 
-	private static final int PORT = 4585;
+  private static final int PORT = 4585;
 
-	private final MonitorImpl monitor;
-	private final String localAddress;
+  private final MonitorImpl monitor;
+  private final String localAddress;
 
-	private Thread thread;
+  private Thread thread;
 
-	MobileServer(MonitorImpl monitor, String localAddress) {
-		this.monitor = monitor;
-		this.localAddress = localAddress;
-	}
+  MobileServer(MonitorImpl monitor, String localAddress) {
+    this.monitor = monitor;
+    this.localAddress = localAddress;
+  }
 
-	synchronized void start() {
-		if(thread==null) {
-			thread = new Thread(this);
-			thread.start();
-		}
-	}
+  synchronized void start() {
+    if (thread == null) {
+      thread = new Thread(this);
+      thread.start();
+    }
+  }
 
-	/*private static int getNodeCount(NodeSnapshot snapshot) {
-		int total = 1;
-		for(NodeSnapshot child : snapshot.getChildren()) total += getNodeCount(child);
-		return total;
-	}*/
+  /*private static int getNodeCount(NodeSnapshot snapshot) {
+    int total = 1;
+    for (NodeSnapshot child : snapshot.getChildren()) total += getNodeCount(child);
+    return total;
+  }*/
 
-	@Override
-	@SuppressWarnings({"UseSpecificCatch", "TooBroadCatch", "SleepWhileInLoop"})
-	public void run() {
-		while(!Thread.currentThread().isInterrupted()) {
-			try {
-				ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
-				ServerSocket ss;
-				if(localAddress==null) {
-					ss = factory.createServerSocket(PORT, 50);
-				} else {
-					InetAddress address = InetAddress.getByName(localAddress);
-					ss = factory.createServerSocket(PORT, 50, address);
-				}
-				try {
-					while(!Thread.currentThread().isInterrupted()) {
-						final Socket socket = ss.accept();
-						RootNodeImpl.executors.getUnbounded().submit(() -> {
-							try {
-								try {
-									try (DataInputStream in = new DataInputStream(socket.getInputStream())) {
-										// Check authentication
-										String username = in.readUTF();
-										String password = in.readUTF();
-										RootNode rootNode; // Will be null if not authenticated
-										try {
-											rootNode = monitor.login(
-												Locale.getDefault(),
-												User.Name.valueOf(username),
-												password
-											);
-										} catch(IOException | ValidationException err) {
-											logger.log(Level.SEVERE, null, err);
-											rootNode = null;
-										}
-										try (DataOutputStream out = new DataOutputStream(new GZIPOutputStream(socket.getOutputStream()))) {
-											if(rootNode==null) {
-												// Authentication failed
-												out.writeBoolean(false);
-											} else {
-												// Authentication successful
-												out.writeBoolean(true);
-												// Write snapshot
-												NodeSnapshot snapshot = rootNode.getSnapshot();
-												//logger.log(Level.INFO, "RootNode snapshot has a total of "+getNodeCount(snapshot)+" nodes");
-												writeNodeTree(out, snapshot);
-											}
-										}
-									}
-								} finally {
-									socket.close();
-								}
-							} catch(ThreadDeath td) {
-								throw td;
-							} catch(Throwable t) {
-								logger.log(Level.SEVERE, null, t);
-							}
-						});
-					}
-				} finally {
-					ss.close();
-				}
-			} catch(ThreadDeath td) {
-				throw td;
-			} catch(Throwable t) {
-				logger.log(Level.SEVERE, null, t);
-				try {
-					Thread.sleep(60000);
-				} catch(InterruptedException err) {
-					logger.log(Level.WARNING, null, err);
-					// Restore the interrupted status
-					Thread.currentThread().interrupt();
-				}
-			}
-		}
-	}
+  @Override
+  @SuppressWarnings({"UseSpecificCatch", "TooBroadCatch", "SleepWhileInLoop"})
+  public void run() {
+    while (!Thread.currentThread().isInterrupted()) {
+      try {
+        ServerSocketFactory factory = SSLServerSocketFactory.getDefault();
+        ServerSocket ss;
+        if (localAddress == null) {
+          ss = factory.createServerSocket(PORT, 50);
+        } else {
+          InetAddress address = InetAddress.getByName(localAddress);
+          ss = factory.createServerSocket(PORT, 50, address);
+        }
+        try {
+          while (!Thread.currentThread().isInterrupted()) {
+            final Socket socket = ss.accept();
+            RootNodeImpl.executors.getUnbounded().submit(() -> {
+              try {
+                try {
+                  try (DataInputStream in = new DataInputStream(socket.getInputStream())) {
+                    // Check authentication
+                    String username = in.readUTF();
+                    String password = in.readUTF();
+                    RootNode rootNode; // Will be null if not authenticated
+                    try {
+                      rootNode = monitor.login(
+                        Locale.getDefault(),
+                        User.Name.valueOf(username),
+                        password
+                      );
+                    } catch (IOException | ValidationException err) {
+                      logger.log(Level.SEVERE, null, err);
+                      rootNode = null;
+                    }
+                    try (DataOutputStream out = new DataOutputStream(new GZIPOutputStream(socket.getOutputStream()))) {
+                      if (rootNode == null) {
+                        // Authentication failed
+                        out.writeBoolean(false);
+                      } else {
+                        // Authentication successful
+                        out.writeBoolean(true);
+                        // Write snapshot
+                        NodeSnapshot snapshot = rootNode.getSnapshot();
+                        //logger.log(Level.INFO, "RootNode snapshot has a total of "+getNodeCount(snapshot)+" nodes");
+                        writeNodeTree(out, snapshot);
+                      }
+                    }
+                  }
+                } finally {
+                  socket.close();
+                }
+              } catch (ThreadDeath td) {
+                throw td;
+              } catch (Throwable t) {
+                logger.log(Level.SEVERE, null, t);
+              }
+            });
+          }
+        } finally {
+          ss.close();
+        }
+      } catch (ThreadDeath td) {
+        throw td;
+      } catch (Throwable t) {
+        logger.log(Level.SEVERE, null, t);
+        try {
+          Thread.sleep(60000);
+        } catch (InterruptedException err) {
+          logger.log(Level.WARNING, null, err);
+          // Restore the interrupted status
+          Thread.currentThread().interrupt();
+        }
+      }
+    }
+  }
 
-	private static void writeNodeTree(DataOutputStream out, NodeSnapshot node) throws IOException {
-		out.writeUTF(node.getLabel());
-		AlertLevel alertLevel = node.getAlertLevel();
-		switch(alertLevel) {
-			case NONE      : out.writeByte(0); break;
-			case LOW       : out.writeByte(1); break;
-			case MEDIUM    : out.writeByte(2); break;
-			case HIGH      : out.writeByte(3); break;
-			case CRITICAL  : out.writeByte(4); break;
-			case UNKNOWN   : out.writeByte(5); break;
-			default        : throw new AssertionError("Unexpected value for alertLevel: "+alertLevel);
-		}
-		String alertMessage = node.getAlertMessage();
-		if(alertMessage!=null && alertMessage.length()==0) alertMessage = null;
-		if(alertMessage!=null) {
-			out.writeBoolean(true);
-			out.writeUTF(alertMessage);
-		} else {
-			out.writeBoolean(false);
-		}
-		out.writeBoolean(node.getAllowsChildren());
-		List<NodeSnapshot> children = node.getChildren();
-		int numChildren = children.size();
-		if(numChildren>Short.MAX_VALUE) throw new IOException("Too many children for current protocol: "+numChildren);
-		out.writeShort(numChildren);
-		for(int c = 0; c < numChildren; c++) {
-			writeNodeTree(out, children.get(c));
-		}
-	}
+  private static void writeNodeTree(DataOutputStream out, NodeSnapshot node) throws IOException {
+    out.writeUTF(node.getLabel());
+    AlertLevel alertLevel = node.getAlertLevel();
+    switch (alertLevel) {
+      case NONE      : out.writeByte(0); break;
+      case LOW       : out.writeByte(1); break;
+      case MEDIUM    : out.writeByte(2); break;
+      case HIGH      : out.writeByte(3); break;
+      case CRITICAL  : out.writeByte(4); break;
+      case UNKNOWN   : out.writeByte(5); break;
+      default        : throw new AssertionError("Unexpected value for alertLevel: "+alertLevel);
+    }
+    String alertMessage = node.getAlertMessage();
+    if (alertMessage != null && alertMessage.length() == 0) {
+      alertMessage = null;
+    }
+    if (alertMessage != null) {
+      out.writeBoolean(true);
+      out.writeUTF(alertMessage);
+    } else {
+      out.writeBoolean(false);
+    }
+    out.writeBoolean(node.getAllowsChildren());
+    List<NodeSnapshot> children = node.getChildren();
+    int numChildren = children.size();
+    if (numChildren>Short.MAX_VALUE) {
+      throw new IOException("Too many children for current protocol: "+numChildren);
+    }
+    out.writeShort(numChildren);
+    for (int c = 0; c < numChildren; c++) {
+      writeNodeTree(out, children.get(c));
+    }
+  }
 }
