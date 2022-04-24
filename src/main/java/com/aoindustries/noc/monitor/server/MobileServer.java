@@ -105,9 +105,9 @@ class MobileServer implements Runnable {
                     RootNode rootNode; // Will be null if not authenticated
                     try {
                       rootNode = monitor.login(
-                        Locale.getDefault(),
-                        User.Name.valueOf(username),
-                        password
+                          Locale.getDefault(),
+                          User.Name.valueOf(username),
+                          password
                       );
                     } catch (IOException | ValidationException err) {
                       logger.log(Level.SEVERE, null, err);
@@ -165,7 +165,7 @@ class MobileServer implements Runnable {
       case HIGH      : out.writeByte(3); break;
       case CRITICAL  : out.writeByte(4); break;
       case UNKNOWN   : out.writeByte(5); break;
-      default        : throw new AssertionError("Unexpected value for alertLevel: "+alertLevel);
+      default        : throw new AssertionError("Unexpected value for alertLevel: " + alertLevel);
     }
     String alertMessage = node.getAlertMessage();
     if (alertMessage != null && alertMessage.length() == 0) {
@@ -180,8 +180,8 @@ class MobileServer implements Runnable {
     out.writeBoolean(node.getAllowsChildren());
     List<NodeSnapshot> children = node.getChildren();
     int numChildren = children.size();
-    if (numChildren>Short.MAX_VALUE) {
-      throw new IOException("Too many children for current protocol: "+numChildren);
+    if (numChildren > Short.MAX_VALUE) {
+      throw new IOException("Too many children for current protocol: " + numChildren);
     }
     out.writeShort(numChildren);
     for (int c = 0; c < numChildren; c++) {

@@ -68,9 +68,9 @@ public final class MonitorServer {
     if (args.length >= 3) {
       publicAddress = args[2].trim();
     }
-    if (args.length>3) {
-      System.err.println("usage: "+MonitorServer.class.getName()+" [port [listen_address [public_address]]]");
-      System.err.println("\tport            the server port - defaults to "+Monitor.DEFAULT_RMI_SERVER_PORT);
+    if (args.length > 3) {
+      System.err.println("usage: " + MonitorServer.class.getName() + " [port [listen_address [public_address]]]");
+      System.err.println("\tport            the server port - defaults to " + Monitor.DEFAULT_RMI_SERVER_PORT);
       System.err.println("\tlisten_address  the local address the server will bind to - the private IP/hostname if behind NAT");
       System.err.println("\tpublic_address  the public address that will reach the server - the external IP/hostname if behind NAT");
       System.exit(1);
@@ -81,9 +81,9 @@ public final class MonitorServer {
     }
     try {
       // Setup the RMI system properties
-      if (publicAddress != null && publicAddress.length()>0) {
+      if (publicAddress != null && publicAddress.length() > 0) {
         System.setProperty("java.rmi.server.hostname", publicAddress);
-      } else if (listenAddress != null && listenAddress.length()>0) {
+      } else if (listenAddress != null && listenAddress.length() > 0) {
         System.setProperty("java.rmi.server.hostname", listenAddress);
       } else {
         System.clearProperty("java.rmi.server.hostname");
@@ -95,20 +95,20 @@ public final class MonitorServer {
       // SSL for everything going over the network
       if (System.getProperty("javax.net.ssl.keyStorePassword") == null) {
         System.setProperty(
-          "javax.net.ssl.keyStorePassword",
-          "changeit"
+            "javax.net.ssl.keyStorePassword",
+            "changeit"
         );
       }
       if (System.getProperty("javax.net.ssl.keyStore") == null) {
         System.setProperty(
-          "javax.net.ssl.keyStore",
-          System.getProperty("user.home")+File.separatorChar+".keystore"
+            "javax.net.ssl.keyStore",
+            System.getProperty("user.home") + File.separatorChar + ".keystore"
         );
       }
 
       RMIClientSocketFactory csf;
       RMIServerSocketFactory ssf;
-      if (listenAddress != null && listenAddress.length()>0) {
+      if (listenAddress != null && listenAddress.length() > 0) {
         csf = new RMIClientSocketFactorySSL();
         ssf = new RMIServerSocketFactorySSL(listenAddress);
       } else {
@@ -123,8 +123,8 @@ public final class MonitorServer {
       User.Name rootUsername = AOServClientConfiguration.getUsername();
       String rootPassword = AOServClientConfiguration.getPassword();
       if (
-        rootUsername != null
-        && rootPassword != null && (rootPassword = rootPassword.trim()).length() > 0
+          rootUsername != null
+              && rootPassword != null && (rootPassword = rootPassword.trim()).length() > 0
       ) {
         int attemptsLeft = 120;
         while (attemptsLeft > 0) {
