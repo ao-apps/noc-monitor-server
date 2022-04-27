@@ -32,4 +32,4 @@ module com.aoindustries.noc.monitor.server {
   // Java SE
   requires java.logging;
   requires java.rmi;
-}
+} // TODO: Avoiding rewrite-maven-plugin-4.22.2 truncation
