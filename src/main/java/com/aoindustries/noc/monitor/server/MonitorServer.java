@@ -25,7 +25,7 @@ package com.aoindustries.noc.monitor.server;
 
 import com.aoapps.hodgepodge.rmi.RMIClientSocketFactorySSL;
 import com.aoapps.hodgepodge.rmi.RMIServerSocketFactorySSL;
-import com.aoindustries.aoserv.client.AOServClientConfiguration;
+import com.aoindustries.aoserv.client.AoservClientConfiguration;
 import com.aoindustries.aoserv.client.account.User;
 import com.aoindustries.noc.monitor.MonitorImpl;
 import com.aoindustries.noc.monitor.common.Monitor;
@@ -54,6 +54,9 @@ public final class MonitorServer {
 
   private static final Logger logger = Logger.getLogger(MonitorServer.class.getName());
 
+  /**
+   * Runs the RMI server for NOC monitoring.
+   */
   @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SleepWhileInLoop", "UseSpecificCatch", "TooBroadCatch"})
   public static void main(String[] args) {
     int port = Monitor.DEFAULT_RMI_SERVER_PORT;
@@ -120,8 +123,8 @@ public final class MonitorServer {
       registry.rebind("com.aoindustries.noc.monitor.server.MonitorServer", monitor);
 
       // Auto-login with a top-level account to kick-off the monitoring if a username/password exist in the aoserv-client.properties file
-      User.Name rootUsername = AOServClientConfiguration.getUsername();
-      String rootPassword = AOServClientConfiguration.getPassword();
+      User.Name rootUsername = AoservClientConfiguration.getUsername();
+      String rootPassword = AoservClientConfiguration.getPassword();
       if (
           rootUsername != null
               && rootPassword != null && (rootPassword = rootPassword.trim()).length() > 0
