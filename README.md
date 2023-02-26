@@ -22,7 +22,7 @@ Server for [Network Operations Center Monitoring](https://github.com/ao-apps/noc
 * [Project Home](https://aoindustries.com/noc/monitor/server/)
 * [Changelog](https://aoindustries.com/noc/monitor/server/changelog)
 * [API Docs](https://aoindustries.com/noc/monitor/server/apidocs/)
-* [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/noc-monitor-server)
+* [Maven Central Repository](https://central.sonatype.com/search?namespace=com.aoindustries&q=a%3Anoc-monitor-server)
 * [GitHub](https://github.com/ao-apps/noc-monitor-server)
 
 ## Contact Us
