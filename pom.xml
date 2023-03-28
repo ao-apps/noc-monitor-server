@@ -41,8 +41,6 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
     <description.html><![CDATA[Server for <a target="${javadoc.target}" href="https://aoindustries.com/noc/monitor/">Network Operations Center Monitoring</a>.]]></description.html>
     <!-- SonarQube -->
     <sonar.projectKey>com.aoapps.platform:noc-monitor-server<!-- TODO: ${project.groupId}:${project.artifactId} --></sonar.projectKey>
-    <sonar.organization>ao-apps</sonar.organization>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <!-- TODO: Implement tests -->
     <sonar.coverage.exclusions>**.*</sonar.coverage.exclusions>
     <!-- Dependencies -->
