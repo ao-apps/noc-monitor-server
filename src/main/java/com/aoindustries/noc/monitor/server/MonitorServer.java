@@ -1,6 +1,6 @@
 /*
  * noc-monitor-server - Server for Network Operations Center Monitoring.
- * Copyright (C) 2008, 2009, 2016, 2017, 2018, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2008, 2009, 2016, 2017, 2018, 2020, 2021, 2022, 2023  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -79,6 +79,7 @@ public final class MonitorServer {
       System.exit(1);
       return;
     }
+    // TODO: Security manager deprecated in Java 17
     if (System.getSecurityManager() == null) {
       System.setSecurityManager(new SecurityManager());
     }
