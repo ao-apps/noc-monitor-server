@@ -39,6 +39,7 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
     <javadoc.breadcrumbs><![CDATA[<a target="${javadoc.target}" href="https://aoindustries.com/noc/">NOC</a>
 / <a target="${javadoc.target}" href="https://aoindustries.com/noc/monitor/">Monitor</a>
 / <a target="${javadoc.target}" href="${project.url}">Server</a>]]></javadoc.breadcrumbs>
+    
     <description.html><![CDATA[Server for <a target="${javadoc.target}" href="https://aoindustries.com/noc/monitor/">Network Operations Center Monitoring</a>.]]></description.html>
     <!-- SonarQube -->
     <sonar.projectKey>com.aoapps.platform:noc-monitor-server<!-- TODO: ${project.groupId}:${project.artifactId} --></sonar.projectKey>
