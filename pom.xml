@@ -45,8 +45,6 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
     <sonar.projectKey>com.aoapps.platform:noc-monitor-server<!-- TODO: ${project.groupId}:${project.artifactId} --></sonar.projectKey>
     <!-- TODO: Implement tests -->
     <sonar.coverage.exclusions>**.*</sonar.coverage.exclusions>
-    <!-- Dependencies -->
-    <slf4j-api.version>2.0.9</slf4j-api.version>
     <!-- com.aoindustries is on original Sonatype Nexus Repository Manager -->
     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
   </properties>
@@ -297,7 +295,7 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
         <groupId>com.aoindustries</groupId><artifactId>noc-monitor-portmon</artifactId><version>1.4.2${POST-SNAPSHOT}</version>
       </dependency>
       <dependency>
-        <groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId><version>${slf4j-api.version}</version>
+        <groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId><version>2.0.9</version>
       </dependency>
       <!-- Runtime Direct -->
       <dependency>
