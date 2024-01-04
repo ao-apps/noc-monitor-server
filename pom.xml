@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 noc-monitor-server - Server for Network Operations Center Monitoring.
-Copyright (C) 2020, 2021, 2022, 2023  AO Industries, Inc.
+Copyright (C) 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
     Mobile, AL 36695
@@ -295,11 +295,11 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
         <groupId>com.aoindustries</groupId><artifactId>noc-monitor-portmon</artifactId><version>1.4.2${POST-SNAPSHOT}</version>
       </dependency>
       <dependency>
-        <groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId><version>2.0.9</version>
+        <groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId><version>2.0.10</version>
       </dependency>
       <!-- Runtime Direct -->
       <dependency>
-        <groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId><version>2.0.9</version>
+        <groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId><version>2.0.10</version>
       </dependency>
       <!-- Runtime Transitive -->
       <dependency>
