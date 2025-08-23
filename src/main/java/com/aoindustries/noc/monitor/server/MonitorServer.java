@@ -120,7 +120,7 @@ public final class MonitorServer {
         csf = new RMIClientSocketFactorySSL();
         ssf = new RMIServerSocketFactorySSL();
       }
-      Registry registry = LocateRegistry.createRegistry(port, csf, ssf); //LocateRegistry.getRegistry();
+      Registry registry = LocateRegistry.createRegistry(port, csf, ssf); // LocateRegistry.getRegistry();
       MonitorImpl monitor = new MonitorImpl(port, csf, ssf);
       registry.rebind("com.aoindustries.noc.monitor.server.MonitorServer", monitor);
 

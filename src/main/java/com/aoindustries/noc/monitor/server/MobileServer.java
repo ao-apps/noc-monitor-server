@@ -122,7 +122,7 @@ class MobileServer implements Runnable {
                         out.writeBoolean(true);
                         // Write snapshot
                         NodeSnapshot snapshot = rootNode.getSnapshot();
-                        //logger.log(Level.INFO, "RootNode snapshot has a total of "+getNodeCount(snapshot)+" nodes");
+                        // logger.log(Level.INFO, "RootNode snapshot has a total of "+getNodeCount(snapshot)+" nodes");
                         writeNodeTree(out, snapshot);
                       }
                     }
