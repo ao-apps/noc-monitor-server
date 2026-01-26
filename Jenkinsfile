@@ -525,7 +525,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Workaround Git #27287') {
       when {
         expression {
-          continueCurrentBuild() && projectDir != '.' && fileExists('.gitmodules')
+          ao.continueCurrentBuild() && projectDir != '.' && fileExists('.gitmodules')
         }
       }
       steps {
@@ -591,7 +591,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Checkout SCM') {
       when {
         expression {
-          continueCurrentBuild()
+          ao.continueCurrentBuild()
         }
       }
       steps {
@@ -647,7 +647,7 @@ Defaults to false and will typically only be true when debugging the build proce
       matrix {
         when {
           expression {
-            continueCurrentBuild()
+            ao.continueCurrentBuild()
           }
         }
         axes {
@@ -703,7 +703,7 @@ Defaults to false and will typically only be true when debugging the build proce
       matrix {
         when {
           expression {
-            continueCurrentBuild() && testWhenExpression.call()
+            ao.continueCurrentBuild() && testWhenExpression.call()
           }
         }
         axes {
@@ -756,7 +756,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Deploy') {
       when {
         expression {
-          continueCurrentBuild()
+          ao.continueCurrentBuild()
         }
       }
       steps {
@@ -770,7 +770,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('SonarQube analysis') {
       when {
         expression {
-          continueCurrentBuild() && sonarqubeWhenExpression.call()
+          ao.continueCurrentBuild() && sonarqubeWhenExpression.call()
         }
       }
       steps {
@@ -784,7 +784,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Quality Gate') {
       when {
         expression {
-          continueCurrentBuild() && sonarqubeWhenExpression.call()
+          ao.continueCurrentBuild() && sonarqubeWhenExpression.call()
         }
       }
       steps {
@@ -798,7 +798,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Analysis') {
       when {
         expression {
-          continueCurrentBuild()
+          ao.continueCurrentBuild()
         }
       }
       steps {
