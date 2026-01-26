@@ -525,11 +525,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Workaround Git #27287') {
       when {
         expression {
-          return (
-            currentBuild.result == null
-            || currentBuild.result == hudson.model.Result.SUCCESS
-            || currentBuild.result == hudson.model.Result.UNSTABLE
-          ) && projectDir != '.' && fileExists('.gitmodules')
+          continueCurrentBuild() && projectDir != '.' && fileExists('.gitmodules')
         }
       }
       steps {
@@ -595,11 +591,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Checkout SCM') {
       when {
         expression {
-          return (
-            currentBuild.result == null
-            || currentBuild.result == hudson.model.Result.SUCCESS
-            || currentBuild.result == hudson.model.Result.UNSTABLE
-          )
+          continueCurrentBuild()
         }
       }
       steps {
@@ -655,11 +647,7 @@ Defaults to false and will typically only be true when debugging the build proce
       matrix {
         when {
           expression {
-            return (
-              currentBuild.result == null
-              || currentBuild.result == hudson.model.Result.SUCCESS
-              || currentBuild.result == hudson.model.Result.UNSTABLE
-            )
+            continueCurrentBuild()
           }
         }
         axes {
@@ -715,11 +703,7 @@ Defaults to false and will typically only be true when debugging the build proce
       matrix {
         when {
           expression {
-            return (
-              currentBuild.result == null
-              || currentBuild.result == hudson.model.Result.SUCCESS
-              || currentBuild.result == hudson.model.Result.UNSTABLE
-            ) && testWhenExpression.call()
+            continueCurrentBuild() && testWhenExpression.call()
           }
         }
         axes {
@@ -772,11 +756,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Deploy') {
       when {
         expression {
-          return (
-            currentBuild.result == null
-            || currentBuild.result == hudson.model.Result.SUCCESS
-            || currentBuild.result == hudson.model.Result.UNSTABLE
-          )
+          continueCurrentBuild()
         }
       }
       steps {
@@ -790,11 +770,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('SonarQube analysis') {
       when {
         expression {
-          return (
-            currentBuild.result == null
-            || currentBuild.result == hudson.model.Result.SUCCESS
-            || currentBuild.result == hudson.model.Result.UNSTABLE
-          ) && sonarqubeWhenExpression.call()
+          continueCurrentBuild() && sonarqubeWhenExpression.call()
         }
       }
       steps {
@@ -808,11 +784,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Quality Gate') {
       when {
         expression {
-          return (
-            currentBuild.result == null
-            || currentBuild.result == hudson.model.Result.SUCCESS
-            || currentBuild.result == hudson.model.Result.UNSTABLE
-          ) && sonarqubeWhenExpression.call()
+          continueCurrentBuild() && sonarqubeWhenExpression.call()
         }
       }
       steps {
@@ -826,11 +798,7 @@ Defaults to false and will typically only be true when debugging the build proce
     stage('Analysis') {
       when {
         expression {
-          return (
-            currentBuild.result == null
-            || currentBuild.result == hudson.model.Result.SUCCESS
-            || currentBuild.result == hudson.model.Result.UNSTABLE
-          )
+          continueCurrentBuild()
         }
       }
       steps {
