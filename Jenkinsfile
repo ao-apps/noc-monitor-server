@@ -769,7 +769,22 @@ Defaults to false and will typically only be true when debugging the build proce
         }
       }
     }
-    ao.deployStage(niceCmd, projectDir, deployJdk, maven, mavenOpts, mvnCommon)
+    stage('Deploy') {
+      when {
+        expression {
+          return (
+            currentBuild.result == null
+            || currentBuild.result == hudson.model.Result.SUCCESS
+            || currentBuild.result == hudson.model.Result.UNSTABLE
+          )
+        }
+      }
+      steps {
+        // Steps moved to separate function to avoid "Method too large"
+        // See https://stackoverflow.com/a/47631522
+        ao.deploySteps(niceCmd, projectDir, deployJdk, maven, mavenOpts, mvnCommon)
+      }
+    }
     stage('SonarQube analysis') {
       when {
         expression {
@@ -783,7 +798,7 @@ Defaults to false and will typically only be true when debugging the build proce
       steps {
         // Steps moved to separate function to avoid "Method too large"
         // See https://stackoverflow.com/a/47631522
-        script {ao.sonarQubeAnalysisSteps(niceCmd, projectDir, deployJdk, maven, mavenOpts, mvnCommon)}
+        ao.sonarQubeAnalysisSteps(niceCmd, projectDir, deployJdk, maven, mavenOpts, mvnCommon)
       }
     }
     stage('Quality Gate') {
@@ -799,7 +814,7 @@ Defaults to false and will typically only be true when debugging the build proce
       steps {
         // Steps moved to separate function to avoid "Method too large"
         // See https://stackoverflow.com/a/47631522
-        script{ao.qualityGateSteps()}
+        ao.qualityGateSteps()
       }
     }
     stage('Analysis') {
@@ -815,7 +830,7 @@ Defaults to false and will typically only be true when debugging the build proce
       steps {
         // Steps moved to separate function to avoid "Method too large"
         // See https://stackoverflow.com/a/47631522
-        script {ao.analysisSteps()}
+        ao.analysisSteps()
       }
     }
   }
