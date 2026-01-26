@@ -23,7 +23,7 @@
  */
 
 // Parent, Extensions, Plugins, Direct and BOM Dependencies
-def upstreamProjects = [
+binding.setVariable('upstreamProjects', [
   // Parent
   '../../oss/parent', // <groupId>com.aoapps</groupId><artifactId>ao-oss-parent</artifactId>
   // Parent Plugin Dependencies (Avoid cyclic dependency)
@@ -46,106 +46,16 @@ def upstreamProjects = [
 
   // BOM
   '../../oss/jakartaee-web-profile-bom', // <groupId>com.aoapps</groupId><artifactId>jakartaee-web-profile-bom</artifactId>
-]
+])
 
 // Java 17
-def buildJdks = ['17', '21'] // Changes must be copied to matrix axes!
-def testJdks = ['17', '21'] // Changes must be copied to matrix axes!
+binding.setVariable('buildJdks', ['17', '21']) // Changes must be copied to matrix axes!
+binding.setVariable('testJdks', ['17', '21']) // Changes must be copied to matrix axes!
 
 /******************************************************************************************
  *                                                                                        *
  * Everything below this line is identical for all projects, except the copied matrix     *
  * axes and any "Begin .*custom" / "End .*custom" blocks (see filter_custom script).      *
- *                                                                                        *
- * See https://issues.jenkins.io/browse/JENKINS-61047                                     *
- * See https://issues.jenkins.io/browse/JENKINS-61280                                     *
- *                                                                                        *
- ******************************************************************************************
- *                                                                                        *
- * Variables that may be defined above this block:                                        *
- *                                                                                        *
- * deployJdk            The version of JDK that will be used for the deploy stage.        *
- *                      Defaults to '21'                                                  *
- *                                                                                        *
- * buildJdks            The array of JDK versions that will build.                        *
- *                      Defaults to ['11', '17', '21']                                    *
- *                      Changes must be copied to matrix axes!                            *
- *                                                                                        *
- * testJdks             The array of JDK versions that will test against every build JDK. *
- *                      Defaults to ['11', '17', '21']                                    *
- *                      Changes must be copied to matrix axes!                            *
- *                                                                                        *
- * upstreamProjects     The array of relative paths to upstream projects.                 *
- *                      Defaults to []                                                    *
- *                                                                                        *
- * projectDir           The directory within the workspace containing the Maven project.  *
- *                      Default depends on the path of Jenkinsfile:                       *
- *                          'Jenkinsfile'       -> '.'                                    *
- *                          'book/Jenkinsfile'  -> 'book'                                 *
- *                          'devel/Jenkinsfile' -> 'devel'                                *
- *                                                                                        *
- * disableSubmodules    Disables checkout of Git submodules.                              *
- *                      Defaults to true                                                  *
- *                                                                                        *
- * sparseCheckoutPaths  The sparse paths for Git checkout.                                *
- *                      Default depends on projectDir:                                    *
- *                          '.'     -> [[path:'/*'],                                      *
- *                                      [path:'!/book/'],                                 *
- *                                      [path:'/book/pom.xml'],                           *
- *                                      [path:'!/devel/']]                                *
- *                          'book'  -> [[path:'/.gitignore'],                             *
- *                                      [path:'/.gitmodules'],                            *
- *                                      [path:'/book/']]                                  *
- *                          'devel' -> [[path:'/.gitignore'],                             *
- *                                      [path:'/.gitmodules'],                            *
- *                                      [path:'/devel/']]                                 *
- *                                                                                        *
- * scmUrl               The Git URL.                                                      *
- *                      Default depends on the project's SCM settings:                    *
- *                          scm.userRemoteConfigs[0].url                                  *
- *                                                                                        *
- * scmBranch            The Git branch name, without and ref/path prefix                  *
- *                      Default depends on the project's SCM settings:                    *
- *                          scm.branches[0].name: 'refs/heads/*' -> '*'                   *
- *                                                                                        *
- * scmBrowser           The Git SCM browser URL.                                          *
- *                      Default depends on scmUrl:                                        *
- *                          '/srv/git/ao-apps/*' -> 'https://github.com/ao-apps/*'        *
- *                          '/srv/git/nmwoss/*'  -> 'https://github.com/newmediaworks/*'  *
- *                          '/srv/git/*'         -> No default                            *
- *                                                                                        *
- * buildPriority        The build job priority from 1 to 30 (lower is build first).       *
- *                      Defaults to the depth in the upstreamProjects dependency graph.   *
- *                                                                                        *
- * quietPeriod          The time to delay between queuing job and starting build.         *
- *                      Default depends on buildPriority:                                 *
- *                          10 + buildPriority * 2                                        *
- *                                                                                        *
- * nice                 The nice level to run the build processes or 0 for none.          *
- *                      Default depends on params.BuildPriority:                          *
- *                          min(19, params.BuildPriority - 1)                             *
- *                                                                                        *
- * maven                The Maven tool to use.                                            *
- *                      Defaults to 'maven-3'                                             *
- *                                                                                        *
- * mavenOpts            The Maven Java options.                                           *
- *                      Defaults to '-Djansi.force' for colorful logs                     *
- *                                                                                        *
- * extraProfiles        An array of additional profiles to pass to Maven.                 *
- *                      Defaults to []                                                    *
- *                                                                                        *
- * testWhenExpression   A closure determining when to run tests.                          *
- *                      Defaults to {return fileExists(projectDir + '/src/test')}         *
- *                                                                                        *
- * sonarqubeWhenExpression  A closure determining when to perform SonarQube analysis.     *
- *                          Defaults to {                                                 *
- *                            return !fileExists(                                         *
- *                              projectDir + '/.github/workflows/build.yml'               *
- *                            )                                                           *
- *                          }                                                             *
- *                                                                                        *
- * failureEmailTo       The recipient of build failure emails.                            *
- *                      Defaults to 'support@aoindustries.com'                            *
  *                                                                                        *
  *****************************************************************************************/
 
@@ -153,206 +63,7 @@ def testJdks = ['17', '21'] // Changes must be copied to matrix axes!
 // TODO: Put @Library on import once we have our first library class
 // TODO: Replace master with a specific tag version number once working
 @Library('ao@master') _
-
-// If RejectedAccessException, grant per-controller:
-//   https://jenkins.aoindustries.com/scriptApproval/
-//   "Approve"
-//   Repeat until all permissions granted
-
-// JDK versions
-if (!binding.hasVariable('deployJdk')) {
-  // Matches build.yml:java-version
-  binding.setVariable('deployJdk', '21')
-}
-if (!binding.hasVariable('buildJdks')) {
-  binding.setVariable(
-    'buildJdks',
-    ['11', '17', '21'] // Changes must be copied to matrix axes!
-  )
-}
-if (!binding.hasVariable('testJdks')) {
-  binding.setVariable(
-    'testJdks',
-    ['11', '17', '21'] // Changes must be copied to matrix axes!
-  )
-}
-if (!binding.hasVariable('upstreamProjects')) {
-  binding.setVariable('upstreamProjects', [])
-}
-if (!binding.hasVariable('projectDir')) {
-  def scriptPath = currentBuild.rawBuild.parent.definition.scriptPath
-  def defaultProjectDir
-  if (scriptPath == 'Jenkinsfile') {
-    defaultProjectDir = '.'
-  } else if (scriptPath == 'book/Jenkinsfile') {
-    defaultProjectDir = 'book'
-  } else if (scriptPath == 'devel/Jenkinsfile') {
-    defaultProjectDir = 'devel'
-  } else {
-    throw new Exception("Unexpected value for 'scriptPath': '$scriptPath'")
-  }
-  binding.setVariable('projectDir', defaultProjectDir)
-}
-if (!binding.hasVariable('disableSubmodules')) {
-  binding.setVariable('disableSubmodules', true)
-}
-if (!binding.hasVariable('sparseCheckoutPaths')) {
-  def defaultSparseCheckoutPaths
-  if (projectDir == '.') {
-    defaultSparseCheckoutPaths = [
-      [path:'/*'],
-      [path:'!/book/'],
-      [path:'/book/pom.xml'],
-      [path:'!/devel/']
-    ]
-  } else if (projectDir == 'book' || projectDir == 'devel') {
-    defaultSparseCheckoutPaths = [
-      [path:'/.gitignore'],
-      [path:'/.gitmodules'],
-      [path:"/$projectDir/"]
-    ]
-  } else {
-    throw new Exception("Unexpected value for 'projectDir': '$projectDir'")
-  }
-  binding.setVariable('sparseCheckoutPaths', defaultSparseCheckoutPaths)
-}
-if (!binding.hasVariable('scmUrl')) {
-  // Automatically determine Git URL: https://stackoverflow.com/a/38255364
-  if (scm.userRemoteConfigs.size() == 1) {
-    binding.setVariable('scmUrl', scm.userRemoteConfigs[0].url)
-  } else {
-    throw new Exception("Precisely one SCM remote expected: '" + scm.userRemoteConfigs + "'")
-  }
-}
-if (!binding.hasVariable('scmBranch')) {
-  // Automatically determine branch
-  if (scm.branches.size() == 1) {
-    def scmBranchPrefix = 'refs/heads/'
-    def defaultScmBranch = scm.branches[0].name
-    if (defaultScmBranch.startsWith(scmBranchPrefix)) {
-      defaultScmBranch = defaultScmBranch.substring(scmBranchPrefix.length())
-      binding.setVariable('scmBranch', defaultScmBranch)
-    } else {
-      throw new Exception("SCM branch does not start with '$scmBranchPrefix': '$defaultScmBranch'")
-    }
-  } else {
-    throw new Exception("Precisely one SCM branch expected: '" + scm.branches + "'")
-  }
-}
-if (!binding.hasVariable('scmBrowser')) {
-  // Automatically determine SCM browser
-  def aoappsPrefix        = '/srv/git/ao-apps/'
-  def newmediaworksPrefix = '/srv/git/nmwoss/'
-  def defaultScmBrowser
-  if (scmUrl.startsWith(aoappsPrefix)) {
-    // Is also mirrored to GitHub user "ao-apps"
-    def repo = scmUrl.substring(aoappsPrefix.length())
-    if (repo.endsWith('.git')) {
-      repo = repo.substring(0, repo.length() - 4)
-    }
-    defaultScmBrowser = [$class: 'GithubWeb',
-      repoUrl: 'https://github.com/ao-apps/' + repo
-    ]
-  } else if (scmUrl.startsWith(newmediaworksPrefix)) {
-    // Is also mirrored to GitHub user "newmediaworks"
-    def repo = scmUrl.substring(newmediaworksPrefix.length())
-    if (repo.endsWith('.git')) {
-      repo = repo.substring(0, repo.length() - 4)
-    }
-    defaultScmBrowser = [$class: 'GithubWeb',
-      repoUrl: 'https://github.com/newmediaworks/' + repo
-    ]
-  } else if (scmUrl.startsWith('/srv/git/') || scmUrl.startsWith('ssh://')) {
-    // No default
-    defaultScmBrowser = null
-  } else {
-    throw new Exception("Unexpected SCM URL: '$scmUrl'")
-  }
-  binding.setVariable('scmBrowser', defaultScmBrowser)
-}
-
-// Variables temporarily used in project resolution
-def tempUpstreamProjectsCache = [:]
-def tempJenkins = Jenkins.get()
-// Find the current project
-def tempCurrentWorkflowJob = currentBuild.rawBuild.parent
-if (!(tempCurrentWorkflowJob instanceof org.jenkinsci.plugins.workflow.job.WorkflowJob)) {
-  throw new Exception("tempCurrentWorkflowJob is not a WorkflowJob: $tempCurrentWorkflowJob")
-}
-
-// Prune set of upstreamProjects
-def prunedUpstreamProjects = ao.pruneUpstreamProjects(tempJenkins, tempUpstreamProjectsCache, tempCurrentWorkflowJob, upstreamProjects)
-
-if (!binding.hasVariable('buildPriority')) {
-  // Find the longest path through all upstream projects, which will be used as both job priority and
-  // nice value.  This will ensure proper build order in all cases.  However, it may prevent some
-  // possible concurrency since reduction to simple job priority number loses information about which
-  // are critical paths on the upstream project graph.
-  def defaultBuildPriority = ao.getDepth(tempJenkins, tempUpstreamProjectsCache, [:], tempCurrentWorkflowJob, prunedUpstreamProjects)
-  if (defaultBuildPriority > 30) throw new Exception("defaultBuildPriority > 30, increase global configuration: $defaultBuildPriority")
-  binding.setVariable('buildPriority', defaultBuildPriority)
-}
-if (buildPriority < 1 || buildPriority > 30) {
-  throw new Exception("buildPriority out of range 1 - 30: $buildPriority")
-}
-
-// Remove temporary variables
-tempUpstreamProjectsCache = null
-tempJenkins = null
-tempCurrentWorkflowJob = null
-
-if (!binding.hasVariable('quietPeriod')) {
-  binding.setVariable('quietPeriod', 10 + buildPriority * 2)
-}
-if (!binding.hasVariable('nice')) {
-  def defaultNice = (params.BuildPriority == null) ? 0 : ((params.BuildPriority as Integer) - 1);
-  if (defaultNice < 0) defaultNice = 0;
-  else if (defaultNice > 19) defaultNice = 19;
-  binding.setVariable('nice', defaultNice)
-}
-if (!binding.hasVariable('maven')) {
-  binding.setVariable('maven', 'maven-3')
-}
-if (!binding.hasVariable('mavenOpts')) {
-  binding.setVariable('mavenOpts', '-Djansi.force')
-}
-if (!binding.hasVariable('extraProfiles')) {
-  binding.setVariable('extraProfiles', [])
-}
-if (!binding.hasVariable('testWhenExpression')) {
-  binding.setVariable('testWhenExpression',
-    {return fileExists(projectDir + '/src/test')}
-  )
-}
-if (!binding.hasVariable('sonarqubeWhenExpression')) {
-  binding.setVariable('sonarqubeWhenExpression',
-    {return !fileExists(projectDir + '/.github/workflows/build.yml')}
-  )
-}
-if (!binding.hasVariable('failureEmailTo')) {
-  binding.setVariable('failureEmailTo', 'support@aoindustries.com')
-}
-
-// Common settings
-def mvnCommonArgs = [
-  '-Dstyle.color=always',
-  '-Dmaven.gitcommitid.nativegit=true',
-  "-DrequireLastBuild=${params.requireLastBuild ?: false}",
-  "-Djenkins.buildNumber=${currentBuild.number}",
-  '-N',
-  '-U',
-  "-Pjenkins,POST-SNAPSHOT${extraProfiles.isEmpty() ? '' : (',' + extraProfiles.join(','))}"
-]
-if (params.mavenDebug) {
-  mvnCommonArgs.add(0, '-X')
-}
-def mvnCommon = mvnCommonArgs.join(' ')
-
-// Phases for Build stage
-def buildPhases = 'clean process-test-classes'
-
-// Determine nice command prefix or empty string for none
-def niceCmd = (nice == 0) ? '' : "nice -n$nice "
+ao.setVariables(binding, currentBuild, scm, params)
 
 pipeline {
   agent any
@@ -361,20 +72,7 @@ pipeline {
     disableConcurrentBuilds(abortPrevious: true)
     quietPeriod(quietPeriod)
     skipDefaultCheckout()
-    //
-    // It is difficult to differentiate the cause of status ABORTED.  It can be a normal status when caused by a
-    // dependency build still in-progress.  Or it can be an unexpected status when caused by a timeout.  In the former
-    // cause, the build will be started again automatically by the upstream project.  In the latter case, the build
-    // must be manually restarted.  Without being able to distinguish, it is less clear when the build system is not
-    // making progress (all jobs can be in ABORTED state), and it is tedious to find which builds to start manually.
-    //
-    // This pipeline-level timeout does not convert status from ABORTED to FAILURE and should be a higher than the sum
-    // of all individual per-steps timeouts below, and thus is never expected to be reached, but remains as a fallback.
-    //
-    // Individual "steps" blocks below perform timeouts within catch blocks to convert status ABORTED to FAILURE.
-    // See https://devops.stackexchange.com/a/9692
-    //
-    timeout(time: 6, unit: 'HOURS')
+    timeout(time: PIPELINE_TIMEOUT, unit: TIMEOUT_UNIT)
     // Only allowed to copy build artifacts from self
     // See https://plugins.jenkins.io/copyartifact/
     copyArtifactPermission("/${JOB_NAME}")
@@ -383,29 +81,22 @@ pipeline {
     string(
       name: 'BuildPriority',
       defaultValue: "$buildPriority",
-      description: """Specify the priority of this build.
-Must be between 1 and 30, with lower values built first.
-Defaults to project's depth in the upstream project graph."""
+      description: BuildPriority_description
     )
     booleanParam(
       name: 'abortOnUnreadyDependency',
       defaultValue: true,
-      description: """Aborts the build when any dependency is queued, building, or unsuccessful.
-Defaults to true and will typically only be false to push a new version of a project out immediately.
-May also want to set BuildPriority to \"1\" to put at the top of the build queue."""
+      description: abortOnUnreadyDependency_description
     )
     booleanParam(
       name: 'requireLastBuild',
       defaultValue: true,
-      description: """Is the last build required for the zip-timestamp-merge Ant task?
-Defaults to true and will typically only be false for either the first build
-or any build that adds or removes build artifacts."""
+      description: requireLastBuild_description
     )
     booleanParam(
       name: 'mavenDebug',
       defaultValue: false,
-      description: """Enables Maven -X debug output.
-Defaults to false and will typically only be true when debugging the build process itself."""
+      description: mavenDebug_description
     )
   }
   triggers {
