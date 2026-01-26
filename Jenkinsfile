@@ -448,7 +448,7 @@ Defaults to false and will typically only be true when debugging the build proce
       }
       steps {
         script {
-          ao.checkoutScmSteps(niceCmd, projectDir, scmUrl, scmBranch, scmBrowser, sparseCheckoutPaths, disableSubmodules)
+          ao.checkoutScmSteps(projectDir, niceCmd, scmUrl, scmBranch, scmBrowser, sparseCheckoutPaths, disableSubmodules)
         }
       }
     }
@@ -469,39 +469,7 @@ Defaults to false and will typically only be true when debugging the build proce
           stage('Build') {
             steps {
               script {
-                try {
-                  timeout(time: 1, unit: 'HOURS') {
-                    dir(projectDir) {
-                      withMaven(
-                        maven: maven,
-                        mavenOpts: mavenOpts,
-                        mavenLocalRepo: ".m2/repository-jdk-$jdk",
-                        jdk: "jdk-$jdk"
-                      ) {
-                        sh "${niceCmd}$MVN_CMD $mvnCommon ${jdk == deployJdk ? '' : "-Dalt.build.dir=target-jdk-$jdk -Pjenkins-build-altjdk "}$buildPhases"
-                      }
-                    }
-                    script {
-                      // Create a separate copy for full test matrix
-                      if (testWhenExpression.call()) {
-                        testJdks.each() {testJdk ->
-                          if (testJdk != jdk) {
-                            sh "${niceCmd}rm $projectDir/target-jdk-$jdk-$testJdk -rf"
-                            sh "${niceCmd}cp -al $projectDir/target${jdk == deployJdk ? '' : "-jdk-$jdk"} $projectDir/target-jdk-$jdk-$testJdk"
-                          }
-                        }
-                      }
-                    }
-                  }
-                } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
-                  if (e.isActualInterruption()) {
-                    echo 'Rethrowing actual interruption instead of converting timeout to failure'
-                    throw e;
-                  }
-                  if (currentBuild.result == null || currentBuild.result == hudson.model.Result.ABORTED) {
-                    error((e.message == null) ? 'Converting timeout to failure' : "Converting timeout to failure: ${e.message}")
-                  }
-                }
+                ao.buildSteps(projectDir, niceCmd, maven, deployJdk, mavenOpts, mvnCommon, jdk, buildPhases, testWhenExpression, testJdks)
               }
             }
           }
@@ -570,7 +538,7 @@ Defaults to false and will typically only be true when debugging the build proce
       }
       steps {
         script {
-          ao.deploySteps(niceCmd, projectDir, deployJdk, maven, mavenOpts, mvnCommon)
+          ao.deploySteps(projectDir, niceCmd, deployJdk, maven, mavenOpts, mvnCommon)
         }
       }
     }
@@ -582,7 +550,7 @@ Defaults to false and will typically only be true when debugging the build proce
       }
       steps {
         script {
-          ao.sonarQubeAnalysisSteps(niceCmd, projectDir, deployJdk, maven, mavenOpts, mvnCommon)
+          ao.sonarQubeAnalysisSteps(projectDir, niceCmd, deployJdk, maven, mavenOpts, mvnCommon)
         }
       }
     }
