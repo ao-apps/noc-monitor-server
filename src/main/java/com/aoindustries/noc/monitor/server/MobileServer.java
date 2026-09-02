@@ -1,6 +1,6 @@
 /*
  * noc-monitor-server - Server for Network Operations Center Monitoring.
- * Copyright (C) 2008, 2009, 2017, 2018, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2008, 2009, 2017, 2018, 2020, 2021, 2022, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -73,11 +73,11 @@ class MobileServer implements Runnable {
     }
   }
 
-  /*private static int getNodeCount(NodeSnapshot snapshot) {
-    int total = 1;
-    for (NodeSnapshot child : snapshot.getChildren()) total += getNodeCount(child);
-    return total;
-  }*/
+  // private static int getNodeCount(NodeSnapshot snapshot) {
+  //   int total = 1;
+  //   for (NodeSnapshot child : snapshot.getChildren()) total += getNodeCount(child);
+  //   return total;
+  // }
 
   @Override
   @SuppressWarnings({"UseSpecificCatch", "TooBroadCatch", "SleepWhileInLoop"})
