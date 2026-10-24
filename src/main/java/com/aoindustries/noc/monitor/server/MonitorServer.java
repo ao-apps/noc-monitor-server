@@ -135,7 +135,7 @@ public final class MonitorServer {
           } catch (ThreadDeath td) {
             throw td;
           } catch (Throwable t) {
-            logger.log(Level.SEVERE, null, t);
+            logger.log(Level.SEVERE, "TODO: message here", t);
             Thread.sleep(60000);
           }
           attemptsLeft--;
@@ -145,13 +145,13 @@ public final class MonitorServer {
       // Start up the mobile server
       new MobileServer(monitor, listenAddress).start();
     } catch (InterruptedException e) {
-      logger.log(Level.WARNING, null, e);
+      logger.log(Level.WARNING, "TODO: message here", e);
       // Restore the interrupted status
       Thread.currentThread().interrupt();
     } catch (ThreadDeath td) {
       throw td;
     } catch (Throwable t) {
-      logger.log(Level.SEVERE, null, t);
+      logger.log(Level.SEVERE, "TODO: message here", t);
     }
   }
 }

@@ -110,7 +110,7 @@ class MobileServer implements Runnable {
                           password
                       );
                     } catch (IOException | ValidationException err) {
-                      logger.log(Level.SEVERE, null, err);
+                      logger.log(Level.SEVERE, "TODO: message here", err);
                       rootNode = null;
                     }
                     try (DataOutputStream out = new DataOutputStream(new GZIPOutputStream(socket.getOutputStream()))) {
@@ -133,7 +133,7 @@ class MobileServer implements Runnable {
               } catch (ThreadDeath td) {
                 throw td;
               } catch (Throwable t) {
-                logger.log(Level.SEVERE, null, t);
+                logger.log(Level.SEVERE, "TODO: message here", t);
               }
             });
           }
@@ -143,11 +143,11 @@ class MobileServer implements Runnable {
       } catch (ThreadDeath td) {
         throw td;
       } catch (Throwable t) {
-        logger.log(Level.SEVERE, null, t);
+        logger.log(Level.SEVERE, "TODO: message here", t);
         try {
           Thread.sleep(60000);
         } catch (InterruptedException err) {
-          logger.log(Level.WARNING, null, err);
+          logger.log(Level.WARNING, "TODO: message here", err);
           // Restore the interrupted status
           Thread.currentThread().interrupt();
         }
