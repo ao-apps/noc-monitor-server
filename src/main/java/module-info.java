@@ -1,6 +1,6 @@
 /*
  * noc-monitor-server - Server for Network Operations Center Monitoring.
- * Copyright (C) 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2021, 2022, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -21,7 +21,6 @@
  * along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.aoindustries.noc.monitor.server {
-  exports com.aoindustries.noc.monitor.server;
   // Direct
   requires com.aoapps.concurrent; // <groupId>com.aoapps</groupId><artifactId>ao-concurrent</artifactId>
   requires com.aoapps.hodgepodge; // <groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId>
@@ -32,4 +31,6 @@ module com.aoindustries.noc.monitor.server {
   // Java SE
   requires java.logging;
   requires java.rmi;
+
+  exports com.aoindustries.noc.monitor.server;
 }
