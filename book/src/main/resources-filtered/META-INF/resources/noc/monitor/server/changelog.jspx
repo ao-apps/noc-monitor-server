@@ -37,7 +37,7 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
     shortTitle="Changelog"
     tocLevels="1"
     datePublished="2020-04-11T01:35:38-05:00"
-    dateModified="2026-01-15T02:58:57Z"
+    dateModified="2026-11-27T12:39:54Z"
   >
     <c:set var="latestRelease" value="1.4.2" />
     <c:if test="${
@@ -59,6 +59,7 @@ along with noc-monitor-server.  If not, see <https://www.gnu.org/licenses/>.
             We had already been running a <code>security.policy.wideopen</code> policy, so this does not really
             change anything.
           </li>
+          <li>Updated to PostgreSQL JDBC 42.7.15.</li>
         </ul>
       </changelog:release>
     </c:if>
